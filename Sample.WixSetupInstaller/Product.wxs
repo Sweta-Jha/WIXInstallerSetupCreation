@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+	<Product Id="*" Name="WPFSampleApplication" Language="1033" Version="1.0.0.0" Manufacturer="Sample Wix Demo Creator"
+	 UpgradeCode="46DE355E-FB28-4D6F-9972-0DBD83BFF146">
+
+		<!-- Define package details -->
+		<Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
+
+		<!-- Handle major upgrades -->
+		<MajorUpgrade AllowDowngrades="no"
+					  IgnoreRemoveFailure="no"
+					  Schedule="afterInstallInitialize"
+					  DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+		<!-- Include .cab file into .msi file -->
+		<MediaTemplate EmbedCab="yes"/>
+
+		<!-- Define main app icon -->
+		<Icon Id="AppIcon" SourceFile="$(var.WPFSampleApplication.ProjectDir)AppIcon.ico" />
+
+		<!-- Set the installer icon to appear in Add/Remove programs -->
+		<Property Id="ARPPRODUCTICON" Value="AppIcon" />
+
+		<!-- Create a basic UI for the installer -->
+		<UI>
+			<UIRef Id="WixUI_Minimal" />
+			<Publish Dialog="ExitDialog"
+										Control="Finish"
+										Event="DoAction"
+										Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+		</UI>
+		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Application" />
+		<!-- Include the custom action -->
+		<Property Id="WixShellExecTarget" Value="[INSTALLFOLDER]WPFSampleApplication.exe" />
+		<CustomAction Id="LaunchApplication"
+							BinaryKey="WixCA"
+							DllEntry="WixShellExec"
+							Impersonate="yes" />
+		<!-- Define the product features -->
+		<Feature Id="MainApplicationFeature" Title="WPF Application Installer" Level="1">
+			<ComponentGroupRef Id="ProductFilesComponentGroup" />
+			<ComponentRef Id="DesktopShortcut" />
+
+			<!-- Create a feature for the Program Menu shortcuts -->
+			<Feature Id="ProgramMenuFeature" Title="Program Menu Shortcuts" Level="1">
+				<ComponentRef Id="ProgramMenuShortcut" />
+			</Feature>
+		</Feature>
+	</Product>
+
+	<!-- Directory structure definition -->
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFiles64Folder">
+				<Directory Id="INSTALLFOLDER" Name="WPF Application">
+					<Directory Id="ProductFilesComponentGroup"></Directory>
+				</Directory>
+			</Directory>
+			<Directory Id="DesktopFolder" Name="Desktop" />
+
+			<!-- Create shortcut for Program Menu -->
+			<Directory Id="ProgramMenuFolder" Name="Programs">
+				<Directory Id="ApplicationProgramsFolder" Name="WPFSampleApplication">
+					<Component Id="ProgramMenuShortcut" Guid="ADE5DF06-0C83-41BC-B9CB-E4CA43C6A535">
+						<Shortcut Id="ProgramMenuShortcut" Name="WPFSampleApplication"
+								  Description="WPF Application Demo Installer"
+								  Target="[INSTALLFOLDER]WPFSampleApplication.exe"
+								  WorkingDirectory="INSTALLFOLDER">
+							<Icon Id="ProgramMenuIcon" SourceFile="$(var.WPFSampleApplication.ProjectDir)AppIcon.ico" />
+						</Shortcut>
+						<RemoveFolder Id="ProgramMenuShortcut" On="uninstall" />
+						<RegistryValue Root="HKCU" Key="Software\WPFSampleApplication" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+					</Component>
+				</Directory>
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<!-- Create shortcut for desktop -->
+	<Fragment>
+		<DirectoryRef Id="DesktopFolder">
+			<Component Id="DesktopShortcut" Guid="cde1e030-eb64-49a5-b7b8-400b379c2d1a">
+				<Shortcut Id="DesktopShortcut" Name="WPFSampleApplication"
+						  Description="WPF Application Demo Installer"
+						  Target="[INSTALLFOLDER]WPFSampleApplication.exe"
+						  WorkingDirectory="INSTALLFOLDER">
+					<Icon Id="DesktopIcon" SourceFile="$(var.WPFSampleApplication.ProjectDir)AppIcon.ico" />
+				</Shortcut>
+				<RegistryValue Root="HKCU" Key="Software\WPFSampleApplication" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+	</Fragment>
+</Wix>

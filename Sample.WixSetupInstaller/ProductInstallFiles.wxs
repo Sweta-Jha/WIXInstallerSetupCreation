@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER" />
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ProductFilesComponentGroup">
+            <Component Id="cmp9CF47858184B6F9848891236DD5FDD95" Directory="INSTALLFOLDER" Guid="*">
+                <File Id="filD1993F50B8B2D7A6117AB06DCAF5A7FC" KeyPath="yes" Source="$(var.BasePath)\WPFSampleApplication.deps.json" />
+            </Component>
+            <Component Id="cmp79D95553D6538594FB805A9B489AC277" Directory="INSTALLFOLDER" Guid="*">
+                <File Id="fil3C00267FFF59D7F6BE43BD5085AAECF1" KeyPath="yes" Source="$(var.BasePath)\WPFSampleApplication.dll" />
+            </Component>
+            <Component Id="cmp156EE5605240547C7533AE83E9876EDC" Directory="INSTALLFOLDER" Guid="*">
+                <File Id="filCE9C319463A9B974DB3DF53C9490EEA7" KeyPath="yes" Source="$(var.BasePath)\WPFSampleApplication.exe" />
+            </Component>
+            <Component Id="cmp771E7515754DE30DD5A9ED5952A80AC6" Directory="INSTALLFOLDER" Guid="*">
+                <File Id="filCF32D78C721358F9471F8F7445C56674" KeyPath="yes" Source="$(var.BasePath)\WPFSampleApplication.pdb" />
+            </Component>
+            <Component Id="cmp4D138705FB09396192AEC6B8AAAB78F0" Directory="INSTALLFOLDER" Guid="*">
+                <File Id="fil2408D2C88207B632BA2CC181E1A06A28" KeyPath="yes" Source="$(var.BasePath)\WPFSampleApplication.runtimeconfig.json" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>
