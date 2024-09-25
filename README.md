@@ -29,7 +29,7 @@ This repository contains a setup project built with **WiX (Windows Installer XML
 - **Add a WiX Setup Project:**
   - In Visual Studio, add a new project to your solution.
   - Search for the "WiX Setup Project" template and create it.
-  - The project comes with a default Product.wxs file, which contains essential structure like <Product>, <Package>, and <Feature> elements.
+  - The project comes with a default Product.wxs file, which contains essential structure like Product, Package, and Feature elements.
 
 **4. Link WPF Application to the WiX Installer**
 
